@@ -4,5 +4,6 @@ cmake_install.cmake
 Makefile
 *.o
 *.obj
+/ouput
 /app
 /app.exe
