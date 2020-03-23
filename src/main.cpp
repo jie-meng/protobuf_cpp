@@ -3,23 +3,30 @@
 #include "proto/tutorial.addressbook.pb.h"
 
 using namespace std;
+using namespace test;
 using namespace tutorial;
 
 const char* OUTPUT_FILE = "./output";
 
 void writeToDisk() {
     AddressBook address_book;
+
+    auto pgender = new Gender();
+    pgender->set_type(Gender::MALE);
+    pgender->set_name("man");
+
     auto ppeople = address_book.add_people();
     ppeople->set_id(1);
     ppeople->set_name("John");
     ppeople->set_email("example@gmail.com");
+    ppeople->set_allocated_gender(pgender);
 
     auto pphone_number = ppeople->add_phones();
-    pphone_number->set_type(tutorial::Person::MOBILE);
+    pphone_number->set_type(Person::MOBILE);
     pphone_number->set_number("139000000000");
 
     pphone_number = ppeople->add_phones();
-    pphone_number->set_type(tutorial::Person::HOME);
+    pphone_number->set_type(Person::HOME);
     pphone_number->set_number("12345678");
 
     // Write to disk.
@@ -51,6 +58,7 @@ void readFromDisk() {
         cout << "id: " << address_book.people(i).id() << endl;
         cout << "name: " << address_book.people(i).name() << endl;
         cout << "email: " << address_book.people(i).email() << endl;
+        cout << "gender: " << address_book.people(i).gender().name() << endl;
 
         for (int j = 0; j < address_book.people(i).phones_size(); ++j) {
             cout << "type: " << address_book.people(i).phones(j).type() << endl;
